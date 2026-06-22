@@ -1,0 +1,14 @@
+/* Extra category color classes for AI-generated proposals (not in original styles.css) */
+.card-header.category-green  { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); }
+.card-header.category-teal   { background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%); }
+.card-header.category-purple { background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%); }
+
+/* Override: show sidebar on mobile so search is always accessible */
+@media (max-width: 960px) {
+  .sidebar {
+    display: block !important;
+  }
+  .main-layout {
+    grid-template-columns: 1fr !important;
+  }
+}

@@ -1,0 +1,8 @@
+flask
+flask-cors
+sentence-transformers
+pinecone
+torch
+transformers
+huggingface_hub
+google-generativeai

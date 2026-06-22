@@ -1,0 +1,11 @@
+flask
+flask-cors
+langchain
+langchain-google-genai
+langchain-community
+pinecone
+sentence-transformers
+torch
+transformers
+requests
+googletrans

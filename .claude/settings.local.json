@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell($path = \"c:\\\\Users\\\\aloka\\\\Desktop\\\\VR_AAG\\\\Budget_Proposals_Hub-main\\\\scripts\\\\ingest-all.ts\"; $f = [System.IO.File]::ReadAllLines\\($path\\); $f.Count; $f[94..129] | ForEach-Object { $_ })",
+      "PowerShell([System.IO.File]::ReadAllLines\\(\"c:\\\\Users\\\\aloka\\\\Desktop\\\\VR_AAG\\\\Budget_Proposals_Hub-main\\\\scripts\\\\ingest-all.ts\"\\).Count)",
+      "PowerShell(Start-Sleep -Seconds 4; try { $r = Invoke-WebRequest -Uri \"http://localhost:7860/admin\" -UseBasicParsing -TimeoutSec 10; \"HTTP $\\($r.StatusCode\\)\" } catch { \"Error: $_\" })",
+      "Bash(node -e ' *)",
+      "Bash(npm install *)",
+      "Bash(npm run *)"
+    ]
+  }
+}

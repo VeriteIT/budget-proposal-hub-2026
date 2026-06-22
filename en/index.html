@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta name="cache-buster" content="v11.7">
+  <title>Budget Proposal Hub | PublicFinance.lk</title>
+  <meta name="description" content="A structured, searchable library of budget proposals by PublicFinance.lk to support meaningful public participation." />
+  <link rel="stylesheet" href="styles.css?v=11.6" />
+  <script src="app.js?v=11.7"></script>
+
+</head>
+<body>
+  <!-- Top Bar -->
+  <div class="pf-topbar">
+    <div class="pf-topbar__inner">
+      <a href="https://publicfinance.lk/" class="pf-brand" target="_blank" rel="noopener">
+        <img src="../assets/images/publicfinance-logo.png" alt="PublicFinance.lk" class="pf-brand__img">
+      </a>
+      <div class="pf-header-content">
+        <div class="pf-title-dropdown">
+          <select class="pf-title-select" id="titleSelect" onchange="navigateToPage(this.value)">
+            <option value="">The Budget Proposal Hub</option>
+            <option value="https://dashboards.publicfinance.lk/infrastructure-watch/">INFRASTRUCTURE WATCH</option>
+            <option value="https://dashboards.publicfinance.lk/fuel-price-tracker/">FUEL PRICE TRACKER</option>
+            <option value="https://dashboards.publicfinance.lk/budget-promises/">BUDGET PROMISES</option>
+            <option value="https://dashboards.publicfinance.lk/fiscal-indicator/">FISCAL INDICATORS</option>
+          </select>
+          <svg class="dropdown-arrow" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7 10l5 5 5-5z"/>
+          </svg>
+        </div>
+        <div class="pf-header-buttons">
+        </div>
+      </div>
+      <div class="pf-actions">
+        <div class="language-dropdown">
+          <select class="language-select" id="languageSelect">
+            <option value="en">English</option>
+            <option value="si">සිංහල</option>
+            <option value="ta">தமிழ்</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Mobile Menu Toggle -->
+      <button class="mobile-menu-toggle" aria-label="Toggle menu" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <!-- Mobile Menu Overlay -->
+      <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+      
+      <!-- Mobile Dropdown Menu -->
+      <div class="mobile-menu" id="mobileMenu">
+        
+        <div class="mobile-menu-content">
+          <!-- Title Dropdown -->
+          <div class="mobile-title-dropdown">
+            <select class="mobile-title-select" id="mobileTitleSelect" onchange="navigateToPage(this.value)">
+              <option value="">The Budget Proposal Hub</option>
+              <option value="https://dashboards.publicfinance.lk/infrastructure-watch/">INFRASTRUCTURE WATCH</option>
+              <option value="https://dashboards.publicfinance.lk/fuel-price-tracker/">FUEL PRICE TRACKER</option>
+              <option value="https://dashboards.publicfinance.lk/budget-promises/">BUDGET PROMISES</option>
+              <option value="https://dashboards.publicfinance.lk/fiscal-indicator/">FISCAL INDICATORS</option>
+            </select>
+          </div>
+          
+          <!-- Language Dropdown -->
+          <div class="mobile-language-dropdown">
+            <select class="mobile-language-select" id="mobileLanguageSelect">
+              <option value="en">English</option>
+              <option value="si">සිංහල</option>
+              <option value="ta">தமிழ்</option>
+            </select>
+          </div>
+
+
+          <!-- Public Feedback Button -->
+          <div class="mobile-feedback-section">
+            <button class="feedback-btn" onclick="window.open('https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=vxOXUi1DA0Kr_7p5ETfbGCkugH3vJ0lLgoUGiz8aXsZUOFhIWjBXNzNDNTU0QTk4RzBPTFBCN0I3Vy4u&origin=DesignPageError', '_blank')">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+              </svg>
+              <span>Send in your feedback</span>
+            </button>
+          </div>
+          
+          <!-- Category Color Legend -->
+          <div class="mobile-category-legend">
+            <div class="legend-content">
+              <h3>Category Colors</h3>
+              <div class="legend-items">
+                <div class="legend-item">
+                  <div class="legend-color category-blue"></div>
+                  <span>Economic Growth</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color category-yellow"></div>
+                  <span>Justice and Rights</span>
+                </div>
+                <div class="legend-item">
+                  <div class="legend-color category-red"></div>
+                  <span>Governance</span>
+                </div>
+              </div>
+              
+              <!-- Source Badge Legend -->
+              <div class="source-badge-legend">
+                <div class="legend-items">
+                  <div class="legend-item">
+                    <img src="assets/images/Public_badge.png" alt="Public" class="badge-icon">
+                    <span>Public Proposals</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Search Section -->
+          <div class="mobile-search-section">
+            <div class="field">
+              <label class="label" for="mobile-q">Search for proposals</label>
+              <input class="input" id="mobile-q" type="search" placeholder="e.g. customs single window, school meals, roads…" autocomplete="off" />
+            </div>
+          </div>
+
+          <!-- Categories Filter -->
+          <div class="mobile-categories-section">
+            <div class="field">
+              <label class="label" for="mobile-cat-toggle">Categories (select one or more)</label>
+              <div class="ms" id="mobile-cat-ms">
+                <button type="button" id="mobile-cat-toggle" class="ms-toggle input" aria-haspopup="listbox" aria-expanded="false">
+                  All categories
+                </button>
+                <div class="ms-menu" role="listbox" aria-label="Categories"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Blue Hero Header -->
+  <header class="site-header">
+    <div class="hero">
+    <h1>THE BUDGET PROPOSAL HUB: Your Budget, Your Future</h1>
+      <div class="hero-main">
+        <div class="hero-content">
+          <p>
+            The Budget Proposal Hub is Sri Lanka's first interactive space for budget ideas, hosted on PublicFinance.lk, a platform maintained by Verité Research
+          </p>
+          <p>
+            The Hub brings together two types of contributions to the national budget:
+          </p>
+          <p>
+            • <strong>Formulated Budget Proposals</strong> – comprehensive, evidence-based submissions to the Ministry of Finance. They provide clear, actionable recommendations designed to address pressing challenges and drive meaningful change
+          </p>
+          <p>
+            • <strong>Concepts for Budget Proposals</strong> – ideas or suggestions for the national budget that may not yet be fully developed into detailed proposals. They capture the essence of a recommendation and provide space for citizens to share their priorities and perspectives.
+          </p>
+          <p>
+            On the Hub, you can also download the template to draft your own proposal and show support by voting on existing ones.
+          </p>
+          <p>
+            Want to go further? Partner with us in drafting and sending proposals: <a href="mailto:pfp@veriteresearch.org">pfp@veriteresearch.org</a>
+          </p>
+          <button class="read-more-btn" onclick="toggleDescription()">
+            <span class="read-more-text">Read More</span>
+            <span class="read-less-text" style="display: none;">Read Less</span>
+          </button>
+        </div>
+        <div class="hero-actions">
+          <a href="assets/pdfs/20250908_VeritéResearch_BudgetProposalHub_Template.pdf" class="hero-btn" target="_blank">
+            <div class="btn-text">
+              <span>Download</span>
+              <span>Proposal</span>
+              <span>Template</span>
+            </div>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="download-icon">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7,10 12,15 17,10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+          </a>
+          <button class="hero-btn tracker-btn" onclick="openProposalsTracker()">
+            <div class="btn-text">
+              <span>Public</span>
+              <span>Proposals</span>
+              <span>Pipeline</span>
+            </div>
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tracker-icon">
+              <path d="M3 3h18v18H3zM9 9h6v6H9z"/>
+              <path d="M9 3v18M15 3v18M3 9h18M3 15h18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Tab Navigation -->
+  <div class="tab-navigation">
+    <button class="tab-button active" data-tab="formulated-proposals">
+        <img src="../assets/images/Proposals.png" alt="Proposals" width="56" height="56" class="tab-icon">
+      <span>Formulated Budget Proposals</span>
+    </button>
+    <button class="tab-button" data-tab="budget-concepts">
+      <img src="../assets/images/Concepts.png" alt="Concepts" width="56" height="56" class="tab-icon">
+      <span>Concepts for Budget Proposals</span>
+    </button>
+    <button class="tab-button" data-tab="other-proposals">
+      <img src="../assets/images/Proposals.png" alt="Other Proposals" width="56" height="56" class="tab-icon">
+      <span>Budget Proposals on other sites</span>
+    </button>
+  </div>
+
+  <!-- Tab Content -->
+  <div class="tab-content">
+    <!-- Formulated Proposals Tab -->
+    <div id="formulated-proposals" class="tab-panel active">
+      <main class="main-layout">
+    <!-- Left Sidebar - Search and Categories -->
+    <aside class="sidebar" aria-label="Search and filter">
+      <!-- Combined Search and Categories Section -->
+      <div class="combined-section">
+        <!-- Search Bar -->
+        <div class="search-section">
+          <div class="field">
+            <label class="label" for="q">Search for proposals</label>
+            <input class="input" id="q" type="search" placeholder="e.g. customs single window, school meals, roads…" autocomplete="off" />
+          </div>
+        </div>
+
+        <!-- Categories Filter -->
+        <div class="categories-section">
+          <div class="field">
+            <label class="label" for="cat-toggle">Categories (select one or more)</label>
+          
+            <!-- Hidden native select (kept for semantics; not used for UI) -->
+            <select id="cat" class="input" multiple style="display:none;"></select>
+          
+            <!-- Custom multi-select dropdown -->
+            <div class="ms" id="cat-ms">
+              <button type="button" id="cat-toggle" class="ms-toggle input" aria-haspopup="listbox" aria-expanded="false">
+                All categories
+              </button>
+              <div class="ms-menu" role="listbox" aria-label="Categories"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Category Color Legend -->
+        <div class="category-legend">
+          <div class="legend-content">
+            <h3>Category Colors</h3>
+            <div class="legend-items">
+              <div class="legend-item">
+                <div class="legend-color category-blue"></div>
+                <span>Economic Growth</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color category-yellow"></div>
+                <span>Justice and Rights</span>
+              </div>
+              <div class="legend-item">
+                <div class="legend-color category-red"></div>
+                <span>Governance</span>
+              </div>
+            </div>
+            
+            <!-- Source Badge Legend -->
+            <div class="source-badge-legend">
+              <div class="legend-items">
+                <div class="legend-item">
+                  <img src="assets/images/Public_badge.png" alt="Public" class="badge-icon">
+                  <span>Public Proposals</span>
+                </div>
+              </div>
+            </div>
+            
+            <!-- Public Feedback Button -->
+            <div class="feedback-section">
+              <button class="feedback-btn" onclick="window.open('https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=vxOXUi1DA0Kr_7p5ETfbGCkugH3vJ0lLgoUGiz8aXsZUOFhIWjBXNzNDNTU0QTk4RzBPTFBCN0I3Vy4u&origin=DesignPageError', '_blank')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+                </svg>
+                <span>Public Feedback</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </aside>
+
+        <!-- Right Content - Results -->
+        <div class="content">
+          <div class="results-container">
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading-spinner" style="display:none">
+          <div class="spinner">
+            <div class="stream-container">
+              <div class="stream-track">
+                <div class="stream-liquid">
+                  <div class="wave wave-1"></div>
+                  <div class="wave wave-2"></div>
+                  <div class="wave wave-3"></div>
+                  <div class="stream-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>Loading proposals...</p>
+        </div>
+        
+            <div id="results" class="grid" aria-live="polite" aria-busy="false"></div>
+            <div id="empty" class="empty" role="status" style="display:none">
+              No proposals match your search or filters. Try a different keyword or clear filters.
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Budget Concepts Tab -->
+    <div id="budget-concepts" class="tab-panel">
+      <!-- Disclaimer Banner -->
+      <div class="disclaimer-banner">
+        <div class="disclaimer-text">
+          <p><strong>Disclaimer:</strong> The concepts on this page are submissions made directly by individual(s) and/or organization(s) for consideration in the national budget. The content, information, and data provided reflect the views and ideas of the respective submitter(s). They have not been independently verified, reviewed, or endorsed by Verité Research.</p>
+        </div>
+      </div>
+      
+      <div class="concepts-container">
+        <div class="concepts-placeholder">
+          <div class="placeholder-content">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
+              <path d="M9 12l2 2 4-4"/>
+              <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z"/>
+              <path d="M3 13h18c.552 0 1 .448 1 1v5c0 .552-.448 1-1 1H3c-.552 0-1-.448-1-1v-5c0-.552.448-1 1-1z"/>
+            </svg>
+            <h3>Concepts for Budget Proposals</h3>
+            <p>This section will display budget concepts submitted by the public.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Other Budget Proposals Tab -->
+    <div id="other-proposals" class="tab-panel">
+      <div class="concepts-container">
+        <div class="concepts-placeholder">
+          <div class="placeholder-content">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="currentColor" opacity="0.3">
+              <path d="M9 12l2 2 4-4"/>
+              <path d="M21 12c.552 0 1-.448 1-1V5c0-.552-.448-1-1-1H3c-.552 0-1 .448-1 1v6c0 .552.448 1 1 1h18z"/>
+              <path d="M3 13h18c.552 0 1 .448 1 1v5c0 .552-.448 1-1 1H3c-.552 0-1-.448-1-1v-5c0-.552.448-1 1-1z"/>
+            </svg>
+            <h3>Budget Proposals on other sites</h3>
+            <p>This section will display links to budget proposals submitted by other organizations.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div>© <span id="y"></span> PublicFinance.lk — a Verité Research initiative</div>
+      <div><a class="footer-link" href="mailto:pfp@veriteresearch.org">pfp@veriteresearch.org</a></div>
+    </div>
+  </footer>
+
+
+  <!-- Chatbot Assistant -->
+  <div class="chatbot-container" id="chatbotContainer">
+    <!-- Chat Toggle Button -->
+    <div class="chatbot-toggle" id="chatbotToggle">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+      </svg>
+      <span>Ask Assistant</span>
+    </div>
+
+    <!-- Chat Interface -->
+    <div class="chatbot-interface" id="chatbotInterface">
+      <div class="chatbot-header">
+        <div class="chatbot-title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M20 2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h4l4 4 4-4h4c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/>
+          </svg>
+          <span>Budget Assistant</span>
+        </div>
+        <div class="chatbot-actions">
+          <button class="chatbot-clear" id="chatbotClear" title="Clear chat memory (Ctrl+L)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 13H5v-2h14v2z"/>
+            </svg>
+            <span class="clear-text">Clear</span>
+          </button>
+          <button class="chatbot-close" id="chatbotClose">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="chatbot-messages" id="chatbotMessages">
+        <div class="message bot-message">
+          <div class="message-content">
+            <p>👋 Hi! I'm your Budget Assistant. I can help you understand the budget proposals, answer questions about specific policies, and guide you through the proposals. What would you like to know?</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="chatbot-suggestions" id="chatbotSuggestions">
+        <button class="suggestion-btn" onclick="sendSuggestion('What are the maternity leave benefits?')">Maternity Leave Benefits</button>
+        <button class="suggestion-btn" onclick="sendSuggestion('What are the EPF changes?')">EPF Changes</button>
+      </div>
+
+      <div class="chatbot-input">
+        <input type="text" id="chatbotInput" placeholder="Ask about budget proposals..." />
+        <button id="chatbotVoice" class="voice-btn" title="Voice Input">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+            <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+          </svg>
+        </button>
+        <button id="chatbotSend">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Public Proposals Tracker Modal -->
+  <div id="proposalsTrackerModal" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-header-content">
+          <h2>Public Proposals Pipeline</h2>
+        </div>
+        <div class="tracker-search-container">
+          <input type="text" id="trackerSearchInput" class="tracker-search-input" placeholder="Search by name or ID..." />
+          <button id="trackerSearchClear" class="tracker-search-clear" style="display: none;" title="Clear search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+            </svg>
+          </button>
+        </div>
+        <button class="modal-close" onclick="closeProposalsTracker()" aria-label="Close modal">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div id="trackerLoading" class="loading-spinner">
+          <div class="spinner">
+            <div class="stream-container">
+              <div class="stream-track">
+                <div class="stream-liquid">
+                  <div class="wave wave-1"></div>
+                  <div class="wave wave-2"></div>
+                  <div class="wave wave-3"></div>
+                </div>
+                <div class="stream-dots">
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                  <div class="dot"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <p>Loading proposals data...</p>
+        </div>
+        <div id="trackerTableContainer" class="table-container" style="display: none;">
+          <table id="proposalsTrackerTable" class="tracker-table">
+            <thead>
+              <tr id="trackerTableHeader">
+                <!-- Headers will be populated by JavaScript -->
+              </tr>
+            </thead>
+            <tbody id="trackerTableBody">
+              <!-- Data will be populated by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+        <div id="trackerError" class="error-message" style="display: none;">
+          <p>Failed to load proposals data. Please try again later.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <script>
+        // Clear any language preferences and force English when in English directory
+        if (window.location.pathname.includes('/en/')) {
+          localStorage.removeItem('selectedLanguage');
+          localStorage.setItem('selectedLanguage', 'en');
+          console.log('Cleared localStorage and set English as default');
+        }
+        
+        // Function to navigate to selected page
+        function navigateToPage(url) {
+          if (url) {
+            window.open(url, '_blank');
+            // Reset dropdown to default option
+            document.getElementById('titleSelect').selectedIndex = 0;
+          }
+        }
+      </script>
+      <script src="app.js?v=11.3"></script>
+</body>
+</html>
+

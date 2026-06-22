@@ -1,0 +1,68 @@
+{
+  "Economic Growth": {
+    "color": "blue",
+    "hex": "#3b82f6",
+    "si": "ආර්ථික වර්ධනය",
+    "ta": "பொருளாதார வளர்ச்சி"
+  },
+  "Justice and Rights": {
+    "color": "yellow",
+    "hex": "#eab308",
+    "si": "යුක්තිය සහ අයිතිවාසිකම්",
+    "ta": "நீதி மற்றும் உரிமைகள்"
+  },
+  "Governance": {
+    "color": "red",
+    "hex": "#ef4444",
+    "si": "පාලනය",
+    "ta": "ஆட்சி"
+  },
+  "Revenue Generation": {
+    "color": "yellow",
+    "hex": "#eab308",
+    "si": "ආදායම් උත්පාදනය",
+    "ta": "வருவாய் ஈட்டுதல்"
+  },
+  "Healthcare": {
+    "color": "red",
+    "hex": "#ef4444",
+    "si": "සෞඛ්‍ය සේවා",
+    "ta": "சுகாதாரம்"
+  },
+  "Education": {
+    "color": "blue",
+    "hex": "#3b82f6",
+    "si": "අධ්‍යාපනය",
+    "ta": "கல்வி"
+  },
+  "Infrastructure": {
+    "color": "yellow",
+    "hex": "#eab308",
+    "si": "යටිතල පහසුකම්",
+    "ta": "உள்கட்டமைப்பு"
+  },
+  "Agriculture": {
+    "color": "green",
+    "hex": "#22c55e",
+    "si": "කෘෂිකර්මය",
+    "ta": "வேளாண்மை"
+  },
+  "Environment": {
+    "color": "teal",
+    "hex": "#14b8a6",
+    "si": "පරිසරය",
+    "ta": "சுற்றுச்சூழல்"
+  },
+  "Technology": {
+    "color": "purple",
+    "hex": "#8b5cf6",
+    "si": "තාක්ෂණය",
+    "ta": "தொழில்நுட்பம்"
+  },
+  "Other": {
+    "color": "gray",
+    "hex": "#94a3b8",
+    "si": "වෙනත්",
+    "ta": "மற்றவை"
+  }
+}
