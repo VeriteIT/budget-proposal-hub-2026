@@ -23,8 +23,11 @@
     "@vercel/blob": "^2.4.0",
     "ai": "^6.0.195",
     "dotenv": "^16.0.0",
+    "gpt-tokenizer": "^2.9.0",
+    "js-tiktoken": "^1.0.21",
     "llamaindex": "^0.8.0",
     "next": "^15.3.0",
+    "pathe": "^1.1.2",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },

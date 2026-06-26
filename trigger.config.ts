@@ -8,6 +8,6 @@ export default defineConfig({
   maxDuration: 3600,
   dirs: ['./trigger'],
   build: {
-    external: ['llamaindex', '@llamaindex/postgres', '@llamaindex/env', 'chromadb-default-embed', 'onnxruntime-node', '@aws-crypto/sha256-js'],
+    external: ['llamaindex', '@llamaindex/postgres', '@llamaindex/env', 'chromadb-default-embed', 'onnxruntime-node', '@aws-crypto/sha256-js', 'pathe', 'gpt-tokenizer', 'js-tiktoken'],
   },
 })
