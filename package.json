@@ -16,9 +16,10 @@
   "dependencies": {
     "@ai-sdk/google": "^3.0.80",
     "@ai-sdk/react": "^3.0.204",
+    "@aws-crypto/sha256-js": "^5.2.0",
     "@google/genai": "^1.52.0",
     "@pinecone-database/pinecone": "^4.0.0",
-    "@trigger.dev/sdk": "^4.4.6",
+    "@trigger.dev/sdk": "4.4.6",
     "@vercel/blob": "^2.4.0",
     "ai": "^6.0.195",
     "dotenv": "^16.0.0",

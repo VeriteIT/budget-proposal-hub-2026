@@ -7,4 +7,7 @@ export default defineConfig({
   logLevel: 'log',
   maxDuration: 3600,
   dirs: ['./trigger'],
+  build: {
+    external: ['llamaindex', '@llamaindex/postgres', '@llamaindex/env', 'chromadb-default-embed', 'onnxruntime-node', '@aws-crypto/sha256-js'],
+  },
 })
