@@ -1,7 +1,3 @@
-import { LlamaParseReader } from 'llamaindex'
-import os from 'os'
-import path from 'path'
-import fs from 'fs'
 import { embedText } from '@/lib/gemini-embed'
 import { encodeSparse, appendChunkCorpus, type BM25Params } from '@/lib/sparse-encoder'
 import { getPineconeIndex } from '@/lib/pinecone-client'
@@ -32,21 +28,50 @@ export function resolvePdfFetchUrl(entry: MetadataEntry, fileId: string): string
   return `${base}/assets/pdfs/${fileId}`
 }
 
-// Downloads a PDF over HTTP and extracts its full text via LlamaParse.
+// Downloads a PDF and extracts its full text via the LlamaCloud REST API —
+// no native bindings needed, works in any serverless/container environment.
 export async function fetchAndParsePdf(url: string): Promise<string> {
-  const res = await fetch(url)
-  if (!res.ok) throw new Error(`Failed to fetch PDF (${res.status}): ${url}`)
-  const buffer = Buffer.from(await res.arrayBuffer())
+  const apiKey = process.env.LLAMA_CLOUD_API_KEY
+  if (!apiKey) throw new Error('LLAMA_CLOUD_API_KEY is not set')
 
-  const tmpPath = path.join(os.tmpdir(), `vectorize-${Date.now()}-${path.basename(url).split('?')[0]}`)
-  fs.writeFileSync(tmpPath, buffer)
-  try {
-    const reader = new LlamaParseReader({ resultType: 'markdown' })
-    const docs = await reader.loadData(tmpPath)
-    return docs.map((d: { getText(): string }) => d.getText()).join('\n\n')
-  } finally {
-    fs.unlinkSync(tmpPath)
+  // 1. Download the PDF bytes
+  const pdfRes = await fetch(url)
+  if (!pdfRes.ok) throw new Error(`Failed to fetch PDF (${pdfRes.status}): ${url}`)
+  const pdfBlob = await pdfRes.blob()
+  const filename = url.split('/').pop()?.split('?')[0] ?? 'document.pdf'
+
+  // 2. Upload to LlamaCloud
+  const form = new FormData()
+  form.append('file', pdfBlob, filename)
+  form.append('result_type', 'markdown')
+
+  const uploadRes = await fetch('https://api.cloud.llamaindex.ai/api/parsing/upload', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}` },
+    body: form,
+  })
+  if (!uploadRes.ok) throw new Error(`LlamaCloud upload failed (${uploadRes.status})`)
+  const { id: jobId } = await uploadRes.json() as { id: string }
+
+  // 3. Poll until complete (max 5 minutes)
+  const deadline = Date.now() + 5 * 60 * 1000
+  while (Date.now() < deadline) {
+    await new Promise((r) => setTimeout(r, 3000))
+    const statusRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}`, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    })
+    const { status } = await statusRes.json() as { status: string }
+    if (status === 'SUCCESS') break
+    if (status === 'ERROR') throw new Error(`LlamaCloud parsing failed for job ${jobId}`)
   }
+
+  // 4. Fetch markdown result
+  const resultRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}/result/markdown`, {
+    headers: { Authorization: `Bearer ${apiKey}` },
+  })
+  if (!resultRes.ok) throw new Error(`Failed to fetch parse result (${resultRes.status})`)
+  const { markdown } = await resultRes.json() as { markdown: string }
+  return markdown
 }
 
 export function buildSharedMeta(fileId: string, entry: MetadataEntry): Record<string, string> {

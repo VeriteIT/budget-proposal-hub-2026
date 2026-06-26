@@ -1,4 +1,3 @@
-import { LlamaParseReader } from 'llamaindex'
 import { generateObject, jsonSchema } from 'ai'
 import { put } from '@vercel/blob'
 import { google } from '@/lib/google-ai'
@@ -9,6 +8,43 @@ import { loadMetadata, saveMetadata } from '@/lib/metadata'
 import type { MetadataEntry } from '@/types'
 import fs from 'fs'
 import path from 'path'
+
+async function parsePdfViaApi(filePath: string): Promise<string> {
+  const apiKey = process.env.LLAMA_CLOUD_API_KEY
+  if (!apiKey) throw new Error('LLAMA_CLOUD_API_KEY is not set')
+
+  const buffer = fs.readFileSync(filePath)
+  const blob = new Blob([buffer], { type: 'application/pdf' })
+  const form = new FormData()
+  form.append('file', blob, path.basename(filePath))
+  form.append('result_type', 'markdown')
+
+  const uploadRes = await fetch('https://api.cloud.llamaindex.ai/api/parsing/upload', {
+    method: 'POST',
+    headers: { Authorization: `Bearer ${apiKey}` },
+    body: form,
+  })
+  if (!uploadRes.ok) throw new Error(`LlamaCloud upload failed (${uploadRes.status})`)
+  const { id: jobId } = await uploadRes.json() as { id: string }
+
+  const deadline = Date.now() + 5 * 60 * 1000
+  while (Date.now() < deadline) {
+    await new Promise((r) => setTimeout(r, 3000))
+    const statusRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}`, {
+      headers: { Authorization: `Bearer ${apiKey}` },
+    })
+    const { status } = await statusRes.json() as { status: string }
+    if (status === 'SUCCESS') break
+    if (status === 'ERROR') throw new Error(`LlamaCloud parsing failed for job ${jobId}`)
+  }
+
+  const resultRes = await fetch(`https://api.cloud.llamaindex.ai/api/parsing/job/${jobId}/result/markdown`, {
+    headers: { Authorization: `Bearer ${apiKey}` },
+  })
+  if (!resultRes.ok) throw new Error(`Failed to fetch parse result (${resultRes.status})`)
+  const { markdown } = await resultRes.json() as { markdown: string }
+  return markdown
+}
 
 const CHUNK_SIZE = 1500
 const CHUNK_OVERLAP = 150
@@ -98,10 +134,8 @@ export async function ingestPdf(
   const fileId = filename
   log(`Parsing PDF: ${filename}`)
 
-  const reader = new LlamaParseReader({ resultType: 'markdown' })
-  const docs = await reader.loadData(pdfPath)
-  const fullText = docs.map((d: { getText(): string }) => d.getText()).join('\n\n')
-  log(`  ${docs.length} pages, ${fullText.length.toLocaleString()} chars`)
+  const fullText = await parsePdfViaApi(pdfPath)
+  log(`  ${fullText.length.toLocaleString()} chars`)
 
   if (fullText.trim().length < 100) {
     throw new Error('Extracted text too short — PDF may be image-based or corrupted')
