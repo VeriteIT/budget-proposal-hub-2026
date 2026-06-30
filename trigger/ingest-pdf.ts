@@ -9,6 +9,7 @@ export interface IngestPdfPayload {
   filename: string
   badge?: string
   meta?: ManualMeta
+  thumbnailUrl?: string
 }
 
 export const ingestPdfTask = task({
@@ -33,6 +34,7 @@ export const ingestPdfTask = task({
       const { fileId, entry } = await ingestPdf(tmpPath, {
         badge: payload.badge,
         meta: payload.meta,
+        thumbnailUrl: payload.thumbnailUrl,
         log: (msg) => console.log(msg),
       })
       return { fileId, entry }

@@ -64,11 +64,27 @@ export async function POST(req: NextRequest) {
       contentType: 'application/pdf',
     })
 
+    const thumbnail = formData.get('thumbnail') as File | null
+    let thumbnailUrl: string | undefined
+    if (thumbnail && thumbnail.type.startsWith('image/')) {
+      const ext = thumbnail.name.split('.').pop() ?? 'jpg'
+      const baseName = file.name.replace(/\.pdf$/i, '')
+      const thumbBuffer = Buffer.from(await thumbnail.arrayBuffer())
+      const thumbBlob = await put(`thumbs/${baseName}.${ext}`, thumbBuffer, {
+        access: 'public',
+        addRandomSuffix: false,
+        allowOverwrite: true,
+        contentType: thumbnail.type,
+      })
+      thumbnailUrl = thumbBlob.url
+    }
+
     const handle = await tasks.trigger<typeof ingestPdfTask>('ingest-pdf', {
       pdfUrl: blob.url,
       filename: file.name,
       badge,
       meta,
+      thumbnailUrl,
     })
     return NextResponse.json({ runId: handle.id })
   } catch (err) {

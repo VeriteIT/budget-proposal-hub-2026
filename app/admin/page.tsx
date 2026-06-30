@@ -206,6 +206,10 @@ export default function AdminPage() {
   const [deleteCatName, setDeleteCatName] = useState<string | null>(null)
   const [catDeleting, setCatDeleting]   = useState(false)
   const fileRef = useRef<HTMLInputElement>(null)
+  const thumbFileRef = useRef<HTMLInputElement>(null)
+  const editThumbFileRef = useRef<HTMLInputElement>(null)
+  const [thumbUploading, setThumbUploading] = useState(false)
+  const [thumbUploadMsg, setThumbUploadMsg] = useState<{ text: string; ok: boolean } | null>(null)
 
   async function fetchCategories() {
     try {
@@ -277,6 +281,8 @@ export default function AdminPage() {
       const fd = new FormData()
       fd.append('pdf', file)
       fd.append('badge', badge)
+      const thumbFile = thumbFileRef.current?.files?.[0]
+      if (thumbFile) fd.append('thumbnail', thumbFile)
       if (titleFilled) {
         // Only send the active language's fields — other langs stay blank
         for (const [k, v] of Object.entries(uploadMeta)) {
@@ -311,6 +317,30 @@ export default function AdminPage() {
     setEditId(p.fileId)
     setEditLang('en')
     setEditForm(JSON.parse(JSON.stringify(p)) as AdminProposal)
+    setThumbUploadMsg(null)
+    if (editThumbFileRef.current) editThumbFileRef.current.value = ''
+  }
+
+  async function handleThumbnailUpload() {
+    if (!editId) return
+    const file = editThumbFileRef.current?.files?.[0]
+    if (!file) return
+    setThumbUploading(true)
+    setThumbUploadMsg(null)
+    try {
+      const fd = new FormData()
+      fd.append('thumbnail', file)
+      const res  = await fetch(`/api/admin/proposals/${encodeURIComponent(editId)}/thumbnail`, { method: 'POST', body: fd })
+      const data = await res.json() as { thumbUrl?: string; error?: string }
+      if (!res.ok) throw new Error(data.error ?? 'Thumbnail upload failed')
+      setEditForm((f) => f ? { ...f, thumbUrl: data.thumbUrl ?? f.thumbUrl } : f)
+      setThumbUploadMsg({ text: 'Thumbnail updated', ok: true })
+      await fetchProposals()
+    } catch (err) {
+      setThumbUploadMsg({ text: err instanceof Error ? err.message : 'Thumbnail upload failed', ok: false })
+    } finally {
+      setThumbUploading(false)
+    }
   }
 
   function updateField(field: EditableField, lang: Lang, value: string) {
@@ -595,6 +625,11 @@ export default function AdminPage() {
                   <input ref={fileRef} type="file" accept=".pdf" required
                     style={{ ...field, padding: '7px 10px', cursor: 'pointer' }} />
                 </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  <Label>Thumbnail image (optional)</Label>
+                  <input ref={thumbFileRef} type="file" accept="image/*"
+                    style={{ ...field, padding: '7px 10px', cursor: 'pointer' }} />
+                </div>
                 <div>
                   <Label>Badge</Label>
                   <select value={badge} onChange={(e) => setBadge(e.target.value)} style={{ ...field, width: 120 }}>
@@ -795,6 +830,30 @@ export default function AdminPage() {
               <button onClick={() => setEditId(null)} style={{ background: 'none', border: 'none', fontSize: 20, color: C.muted, cursor: 'pointer', lineHeight: 1 }}>✕</button>
             </div>
             <p style={{ fontSize: 12, color: C.muted, marginBottom: 20, wordBreak: 'break-all' }}>{editId}</p>
+
+            {/* Thumbnail */}
+            <div style={{ marginBottom: 24 }}>
+              <Label>Thumbnail image</Label>
+              <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
+                {editForm.thumbUrl && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={editForm.thumbUrl.startsWith('http') ? editForm.thumbUrl : `/${editForm.thumbUrl}`}
+                    alt="" style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 8, border: `1px solid ${C.border}` }}
+                  />
+                )}
+                <input ref={editThumbFileRef} type="file" accept="image/*"
+                  style={{ ...field, padding: '7px 10px', cursor: 'pointer', width: 'auto', flex: 1, minWidth: 180 }} />
+                <Btn variant="outline" size="sm" disabled={thumbUploading} onClick={handleThumbnailUpload}>
+                  {thumbUploading ? 'Uploading…' : 'Upload'}
+                </Btn>
+              </div>
+              {thumbUploadMsg && (
+                <span style={{ fontSize: 12, fontWeight: 500, color: thumbUploadMsg.ok ? C.green : C.red, display: 'block', marginTop: 6 }}>
+                  {thumbUploadMsg.ok ? '✓ ' : '✗ '}{thumbUploadMsg.text}
+                </span>
+              )}
+            </div>
 
             {/* Language tabs */}
             <div style={{ display: 'flex', gap: 4, marginBottom: 24, background: C.bg, borderRadius: 8, padding: 4 }}>
