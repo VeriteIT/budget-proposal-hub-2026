@@ -237,7 +237,7 @@ export function ChatWidget({ lang }: Props) {
                       {sources.map((s) => (
                         <a
                           key={s.pdfUrl}
-                          href={`/${s.pdfUrl}`}
+                          href={s.pdfUrl.startsWith('http') ? s.pdfUrl : `/${s.pdfUrl}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{

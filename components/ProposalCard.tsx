@@ -32,7 +32,7 @@ export function ProposalCard({ proposal }: Props) {
             <div className="thumb-wrap">
               {proposal.thumbUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img className="thumb" src={`/${proposal.thumbUrl}`} alt="" />
+                <img className="thumb" src={proposal.thumbUrl.startsWith('http') ? proposal.thumbUrl : `/${proposal.thumbUrl}`} alt="" />
               ) : (
                 <div className="thumb-fallback" aria-hidden="true">{letter}</div>
               )}
@@ -60,7 +60,7 @@ export function ProposalCard({ proposal }: Props) {
               <span className={`badge ${costCls}`} title="Estimated cost">{costText}</span>
             )}
             {proposal.pdfUrl && (
-              <a className="download" href={`/${proposal.pdfUrl}`} target="_blank" rel="noopener noreferrer">
+              <a className="download" href={proposal.pdfUrl.startsWith('http') ? proposal.pdfUrl : `/${proposal.pdfUrl}`} target="_blank" rel="noopener noreferrer">
                 Download the analysis
               </a>
             )}
