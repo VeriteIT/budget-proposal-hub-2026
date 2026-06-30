@@ -16,7 +16,7 @@ export async function saveMetadata(data: DynamicMetadata): Promise<void> {
 // New uploads store a full Blob URL in entry.pdfUrl/thumbUrl; existing
 // proposals fall back to the static files shipped in public/assets/.
 export function resolvePdfUrl(entry: MetadataEntry, fileId: string): string {
-  return entry.pdfUrl ?? `assets/pdfs/${fileId}`
+  return entry.pdfUrl?.startsWith('http') ? entry.pdfUrl : `assets/pdfs/${fileId}`
 }
 
 export function resolveThumbUrl(entry: MetadataEntry): string {
