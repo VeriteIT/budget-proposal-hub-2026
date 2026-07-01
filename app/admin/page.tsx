@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface LangFields { en: string; si: string; ta: string }
 
@@ -174,6 +175,7 @@ function SectionCard({ children, style: extra }: { children: React.ReactNode; st
 }
 
 export default function AdminPage() {
+  const router = useRouter()
   const [proposals, setProposals]       = useState<AdminProposal[]>([])
   const [loading, setLoading]           = useState(true)
   const [uploading, setUploading]       = useState(false)
@@ -210,6 +212,11 @@ export default function AdminPage() {
   const editThumbFileRef = useRef<HTMLInputElement>(null)
   const [thumbUploading, setThumbUploading] = useState(false)
   const [thumbUploadMsg, setThumbUploadMsg] = useState<{ text: string; ok: boolean } | null>(null)
+
+  async function handleLogout() {
+    await fetch('/api/admin/logout', { method: 'POST' })
+    router.push('/admin/login')
+  }
 
   async function fetchCategories() {
     try {
@@ -459,11 +466,6 @@ export default function AdminPage() {
     missing:    proposals.filter((p) => !p.hasPdf).length,
   }
 
-  // Categories for the proposals table/edit modal — keyed by adminLang
-  const localisedCategories = Array.from(
-    new Set(proposals.map((p) => p.category[adminLang]).filter(Boolean))
-  ).sort()
-
   // Categories for the upload form dropdown — keyed by uploadLang
   const uploadCategories = Array.from(
     new Set(proposals.map((p) => p.category[uploadLang]).filter(Boolean))
@@ -483,19 +485,22 @@ export default function AdminPage() {
               Manage, index, and update proposals in Pinecone
             </p>
           </div>
-          {/* Language switcher */}
-          <div style={{ display: 'flex', gap: 4, background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: 4 }}>
-            {([['en', 'English'], ['si', 'සිංහල'], ['ta', 'தமிழ்']] as const).map(([l, label]) => (
-              <button key={l} type="button" onClick={() => setAdminLang(l)}
-                style={{
-                  padding: '6px 14px', border: 'none', borderRadius: 6, cursor: 'pointer',
-                  fontSize: 13, fontWeight: 600,
-                  background: adminLang === l ? C.blue : 'transparent',
-                  color: adminLang === l ? '#fff' : C.muted,
-                }}>
-                {label}
-              </button>
-            ))}
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
+            {/* Language switcher */}
+            <div style={{ display: 'flex', gap: 4, background: C.card, border: `1px solid ${C.border}`, borderRadius: 8, padding: 4 }}>
+              {([['en', 'English'], ['si', 'සිංහල'], ['ta', 'தமிழ்']] as const).map(([l, label]) => (
+                <button key={l} type="button" onClick={() => setAdminLang(l)}
+                  style={{
+                    padding: '6px 14px', border: 'none', borderRadius: 6, cursor: 'pointer',
+                    fontSize: 13, fontWeight: 600,
+                    background: adminLang === l ? C.blue : 'transparent',
+                    color: adminLang === l ? '#fff' : C.muted,
+                  }}>
+                  {label}
+                </button>
+              ))}
+            </div>
+            <Btn variant="ghost" size="sm" onClick={handleLogout}>Sign out</Btn>
           </div>
         </div>
 
