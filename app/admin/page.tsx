@@ -59,7 +59,7 @@ async function pollRun<T = unknown>(runId: string, intervalMs = 2000): Promise<R
   }
 }
 
-const BADGES = ['New', 'Public', 'VR', '']
+const BADGES = ['VR', 'Public', 'New']
 
 const C = {
   bg:       '#f1f5f9',
@@ -178,7 +178,7 @@ export default function AdminPage() {
   const [loading, setLoading]           = useState(true)
   const [uploading, setUploading]       = useState(false)
   const [uploadMsg, setUploadMsg]       = useState<{ text: string; ok: boolean } | null>(null)
-  const [badge, setBadge]               = useState('New')
+  const [badge, setBadge]               = useState('VR')
   const [uploadLang, setUploadLang]     = useState<Lang>('en')
   const [uploadMeta, setUploadMeta]     = useState({
     title:    { en: '', si: '', ta: '' },
@@ -675,25 +675,25 @@ export default function AdminPage() {
 
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
                 <div>
-                  <Label>Title</Label>
-                  <input type="text" style={field}
+                  <Label>Title <span style={{ color: C.red }}>*</span></Label>
+                  <input type="text" style={field} required
                     placeholder={uploadLang === 'en' ? 'e.g. Proposal to reform EPF taxation' : uploadLang === 'si' ? 'e.g. EPF බදු ප්‍රතිසංස්කරණ යෝජනාව' : 'e.g. EPF வரி சீர்திருத்த முன்மொழிவு'}
                     value={uploadMeta.title[uploadLang]}
                     onChange={(e) => setMeta('title', uploadLang, e.target.value)} />
                 </div>
                 <div>
-                  <Label>Category</Label>
-                  <select style={field} value={uploadMeta.category[uploadLang]}
+                  <Label>Category <span style={{ color: C.red }}>*</span></Label>
+                  <select style={field} required value={uploadMeta.category[uploadLang]}
                     onChange={(e) => setMeta('category', uploadLang, e.target.value)}>
-                    <option value="">— auto-detect —</option>
+                    <option value="">— select category —</option>
                     {uploadCategories.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
               </div>
 
               <div style={{ marginBottom: 14 }}>
-                <Label>Summary</Label>
-                <textarea rows={2} style={fieldTA}
+                <Label>Summary <span style={{ color: C.red }}>*</span></Label>
+                <textarea rows={2} style={fieldTA} required
                   placeholder={uploadLang === 'en' ? 'Two-sentence summary of the proposal' : 'යෝජනාවේ කෙටි සාරාංශය…'}
                   value={uploadMeta.summary[uploadLang]}
                   onChange={(e) => setMeta('summary', uploadLang, e.target.value)} />
