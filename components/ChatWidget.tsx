@@ -20,6 +20,7 @@ const TEXT: Record<Lang, {
   error: string
   clear: string
   sources: string
+  askBtn: string
   starters: string[]
 }> = {
   en: {
@@ -32,6 +33,7 @@ const TEXT: Record<Lang, {
     error: 'Something went wrong. Please try again.',
     clear: 'Clear chat',
     sources: 'Related proposals',
+    askBtn: 'Ask Assistant',
     starters: [
       'What reforms are proposed for the EPF?',
       'What anti-corruption and transparency proposals are there?',
@@ -48,6 +50,7 @@ const TEXT: Record<Lang, {
     error: 'දෝෂයක් ඇතිවිය. කරුණාකර නැවත උත්සාහ කරන්න.',
     clear: 'සංවාදය හිස් කරන්න',
     sources: 'සම්බන්ධිත යෝජනා',
+    askBtn: 'සහායකයාගෙන් අසන්න',
     starters: [
       'EPF (සේවක අර්ථසාධක අරමුදල) සඳහා යෝජිත ප්‍රතිසංස්කරණ මොනවාද?',
       'දූෂණ මර්දන සහ විනිවිදභාවය පිළිබඳ ඇති යෝජනා මොනවාද?',
@@ -64,6 +67,7 @@ const TEXT: Record<Lang, {
     error: 'ஏதோ தவறு நடந்தது. மீண்டும் முயற்சிக்கவும்.',
     clear: 'உரையாடலை அழி',
     sources: 'தொடர்புடைய முன்மொழிவுகள்',
+    askBtn: 'உதவியாளரிடம் கேளுங்கள்',
     starters: [
       'EPF (ஊழியர் சேமலாப நிதியம்) தொடர்பில் முன்மொழியப்பட்டுள்ள சீர்திருத்தங்கள் யாவை?',
       'ஊழல் தடுப்பு மற்றும் வெளிப்படைத்தன்மை தொடர்பான முன்மொழிவுகள் என்னென்ன உள்ளன?',
@@ -319,22 +323,27 @@ export function ChatWidget({ lang }: Props) {
         onClick={() => setOpen((v) => !v)}
         aria-label={t.title}
         style={{
-          width: 56,
-          height: 56,
-          borderRadius: '50%',
+          height: 44,
+          paddingLeft: 16,
+          paddingRight: 20,
+          borderRadius: 999,
           border: 'none',
-          background: '#0d2a4a',
+          background: '#288e76',
           color: '#fff',
-          fontSize: 24,
+          fontSize: 14,
+          fontWeight: 600,
           cursor: 'pointer',
-          boxShadow: '0 8px 24px rgba(13,42,74,.35)',
+          boxShadow: '0 4px 16px rgba(40,142,118,.4)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'center',
+          gap: 8,
           float: 'right',
         }}
       >
-        {open ? '×' : '💬'}
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        {open ? '×' : t.askBtn}
       </button>
     </div>
   )
