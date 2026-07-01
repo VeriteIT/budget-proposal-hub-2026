@@ -23,9 +23,9 @@ const TEXT: Record<Lang, {
   starters: string[]
 }> = {
   en: {
-    title: 'Budget Proposals Assistant',
+    title: 'Budget Assistant',
     placeholder: 'Ask about a budget proposal…',
-    greeting: 'Hi! Ask me about any budget proposal — costs, categories, or topics.',
+    greeting: '👋 Hi! I\'m your Budget Assistant. I can help you understand the budget proposals, answer questions about specific policies, and guide you through the proposals. What would you like to know?',
     send: 'Send',
     thinking: 'Thinking…',
     searching: 'Searching proposals…',
@@ -33,16 +33,15 @@ const TEXT: Record<Lang, {
     clear: 'Clear chat',
     sources: 'Related proposals',
     starters: [
-      'What proposals are related to healthcare?',
-      'What are the education sector proposals?',
-      'Tell me about economic growth proposals',
-      'What governance reforms are proposed?',
+      'What reforms are proposed for the EPF?',
+      'What anti-corruption and transparency proposals are there?',
+      'What proposals would help Sri Lanka\'s exports and trade competitiveness?',
     ],
   },
   si: {
     title: 'අයවැය යෝජනා සහායක',
     placeholder: 'අයවැය යෝජනාවක් ගැන විමසන්න…',
-    greeting: 'හායි! ඕනෑම අයවැය යෝජනාවක් ගැන — වැය, කාණ්ඩ, හෝ මාතෘකා ගැන මගෙන් අසන්න.',
+    greeting: '👋 ආයුබෝවන්! මම ඔබේ අයවැය සහායකයා (Budget Assistant). අයවැය යෝජනා අවබෝධ කර ගැනීමට, නිශ්චිත ප්‍රතිපත්ති පිළිබඳ ප්‍රශ්නවලට පිළිතුරු දීමට සහ යෝජනා පිළිබඳව ඔබට මඟ පෙන්වීමට මට උපකාර කළ හැක. ඔබ දැනගැනීමට කැමති කුමක්ද?',
     send: 'යවන්න',
     thinking: 'සිතමින්…',
     searching: 'යෝජනා සොයමින්…',
@@ -50,16 +49,15 @@ const TEXT: Record<Lang, {
     clear: 'සංවාදය හිස් කරන්න',
     sources: 'සම්බන්ධිත යෝජනා',
     starters: [
-      'සෞඛ්‍ය සේවා සම්බන්ධ යෝජනා මොනවාද?',
-      'අධ්‍යාපන අංශයේ යෝජනා මොනවාද?',
-      'ආර්ථික වර්ධන යෝජනා ගැන කියන්න',
-      'පාලන ප්‍රතිසංස්කරණ යෝජනා මොනවාද?',
+      'EPF (සේවක අර්ථසාධක අරමුදල) සඳහා යෝජිත ප්‍රතිසංස්කරණ මොනවාද?',
+      'දූෂණ මර්දන සහ විනිවිදභාවය පිළිබඳ ඇති යෝජනා මොනවාද?',
+      'ශ්‍රී ලංකාවේ අපනයන සහ වෙළෙඳ තරගකාරීත්වය නැංවීමට උපකාර වන යෝජනා මොනවාද?',
     ],
   },
   ta: {
     title: 'பட்ஜெட் முன்மொழிவு உதவியாளர்',
     placeholder: 'ஒரு பட்ஜெட் முன்மொழிவைப் பற்றி கேளுங்கள்…',
-    greeting: 'வணக்கம்! எந்த பட்ஜெட் முன்மொழிவைப் பற்றியும் — செலவு, வகை, அல்லது தலைப்புகள் — என்னிடம் கேளுங்கள்.',
+    greeting: '👋 வணக்கம்! நான் உங்கள் வரவுசெலவுத் திட்ட உதவியாளர் (Budget Assistant). வரவுசெலவுத் திட்ட முன்மொழிவுகளைப் புரிந்துகொள்ளவும், குறிப்பிட்ட கொள்கைகள் பற்றிய கேள்விகளுக்குப் பதிலளிக்கவும், இந்த முன்மொழிவுகள் குறித்து உங்களை வழிநடத்தவும் என்னால் உதவ முடியும். நீங்கள் எதைப் பற்றி அறிந்துகொள்ள விரும்புகிறீர்கள்?',
     send: 'அனுப்பு',
     thinking: 'சிந்திக்கிறது…',
     searching: 'முன்மொழிவுகளைத் தேடுகிறது…',
@@ -67,10 +65,9 @@ const TEXT: Record<Lang, {
     clear: 'உரையாடலை அழி',
     sources: 'தொடர்புடைய முன்மொழிவுகள்',
     starters: [
-      'சுகாதாரம் தொடர்பான முன்மொழிவுகள் என்ன?',
-      'கல்வித் துறை முன்மொழிவுகள் என்ன?',
-      'பொருளாதார வளர்ச்சி முன்மொழிவுகள் பற்றி கூறுங்கள்',
-      'ஆட்சி சீர்திருத்த முன்மொழிவுகள் என்ன?',
+      'EPF (ஊழியர் சேமலாப நிதியம்) தொடர்பில் முன்மொழியப்பட்டுள்ள சீர்திருத்தங்கள் யாவை?',
+      'ஊழல் தடுப்பு மற்றும் வெளிப்படைத்தன்மை தொடர்பான முன்மொழிவுகள் என்னென்ன உள்ளன?',
+      'இலங்கையின் ஏற்றுமதி மற்றும் வர்த்தகப் போட்டித்தன்மைக்கு உதவும் முன்மொழிவுகள் யாவை?',
     ],
   },
 }
@@ -120,7 +117,7 @@ export function ChatWidget({ lang }: Props) {
         <div style={{
           width: 340,
           maxWidth: 'calc(100vw - 40px)',
-          height: 460,
+          height: 520,
           maxHeight: 'calc(100vh - 100px)',
           background: '#ffffff',
           borderRadius: 16,
@@ -162,31 +159,15 @@ export function ChatWidget({ lang }: Props) {
 
           <div ref={listRef} style={{ flex: 1, overflowY: 'auto', padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10, background: '#f6f8fb' }}>
             {messages.length === 0 && (
-              <>
-                <div style={{ fontSize: 13, color: '#606772', lineHeight: 1.5 }}>{t.greeting}</div>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 4 }}>
-                  {t.starters.map((q) => (
-                    <button
-                      key={q}
-                      type="button"
-                      onClick={() => sendStarter(q)}
-                      style={{
-                        textAlign: 'left',
-                        padding: '8px 12px',
-                        borderRadius: 10,
-                        border: '1px solid #e6e8ee',
-                        background: '#ffffff',
-                        color: '#0d2a4a',
-                        fontSize: 12.5,
-                        lineHeight: 1.4,
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {q}
-                    </button>
-                  ))}
-                </div>
-              </>
+              <div style={{
+                background: '#ffffff',
+                borderRadius: 12,
+                border: '1px solid #e6e8ee',
+                padding: '12px 14px',
+                fontSize: 13,
+                color: '#0b1021',
+                lineHeight: 1.6,
+              }}>{t.greeting}</div>
             )}
             {messages.map((m) => {
               const text = m.parts
@@ -268,6 +249,32 @@ export function ChatWidget({ lang }: Props) {
               <div style={{ fontSize: 12, color: '#dc2626' }}>{t.error}</div>
             )}
           </div>
+
+          {messages.length === 0 && (
+            <div style={{ padding: '6px 10px 4px', borderTop: '1px solid #e6e8ee', background: '#fff', display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              {t.starters.map((q) => (
+                <button
+                  key={q}
+                  type="button"
+                  onClick={() => sendStarter(q)}
+                  style={{
+                    padding: '5px 10px',
+                    borderRadius: 20,
+                    border: '1px solid #c8d0dc',
+                    background: '#f0f4f8',
+                    color: '#0d2a4a',
+                    fontSize: 11.5,
+                    lineHeight: 1.4,
+                    cursor: 'pointer',
+                    whiteSpace: 'normal',
+                    textAlign: 'left',
+                  }}
+                >
+                  {q}
+                </button>
+              ))}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit} style={{ display: 'flex', gap: 8, padding: 10, borderTop: '1px solid #e6e8ee', background: '#fff' }}>
             <input
